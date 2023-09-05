@@ -1,0 +1,316 @@
+@import url("https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@100;200;300;400;500;600;700&display=swap");
+
+:root,
+[data-theme="light"] {
+  /* Sizes */
+  --tile-size: 80px;
+  --primary-font-size: 38px;
+  --secondary-font-size: 16px;
+  --hint-font-size: 14px;
+
+  /* Colors */
+  --background-color: #f1f1f1;
+  --background-color-settings: #fff;
+  --primary-text-color: #e9a663;
+  --secondary-text-color: #555;
+  --hint-text-color: #666;
+  --tile-border-color: #b8b8b8;
+  --box-shadow-color: #aaa;
+  --game-over-text-color: #eee;
+
+  /* Spacing */
+  --grid-gap: 10px;
+  --container-padding: 10px;
+  --score-record-padding: 10px 0;
+
+  /* Transitions */
+  --tile-transition: 300ms ease-in-out;
+  --theme-transition: 500ms ease-in-out;
+}
+
+[data-theme="dark"] {
+  /* Dark theme variables */
+  --background-color: #1e1e1e;
+  --background-color-settings: #1a1a1a;
+  --primary-text-color: #f1c27d;
+  --secondary-text-color: #d4ccc5;
+  --hint-text-color: #999;
+  --tile-border-color: #555;
+  --box-shadow-color: #111;
+  --game-over-text-color: #fff;
+}
+
+body {
+  font-family: "Saira Condensed", sans-serif;
+  background-color: var(--background-color);
+  transition: background-color var(--theme-transition);
+}
+
+h1 {
+  font-size: var(--primary-font-size);
+  color: var(--primary-text-color);
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+h2 {
+  font-size: var(--secondary-font-size);
+  color: var(--secondary-text-color);
+  margin: 0 15px;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  font-weight: 400;
+}
+
+.hint {
+  font-size: var(--hint-font-size);
+  color: var(--hint-text-color);
+  margin: 0 10px 5px;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  font-weight: 400;
+}
+
+#hint {
+  display: none;
+  position: absolute;
+  top: 15px;
+  right: 30px;
+  padding: 0 15px 0 6px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--secondary-text-color);
+  max-width: 300px;
+  background: var(--background-color);
+  border: 1px solid var(--primary-text-color);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+}
+
+.score-record {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  max-width: 380px;
+  padding: var(--score-record-padding);
+}
+
+.score-record > * {
+  text-align: center;
+  margin: 0;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(4, var(--tile-size));
+  gap: var(--grid-gap);
+  border: 4px solid var(--primary-text-color);
+  padding: var(--container-padding);
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px var(--box-shadow-color);
+  user-select: none;
+}
+
+.tile {
+  width: var(--tile-size);
+  height: var(--tile-size);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
+  color: white;
+  text-shadow: 0 0 2px #444;
+  font-weight: bold;
+  border: 1px solid var(--tile-border-color);
+  border-radius: 6px;
+  transition: background var(--tile-transition), transform 100ms ease-in-out;
+}
+
+.game-over {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.95);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.game-over h2 {
+  color: var(--game-over-text-color);
+  font-size: 48px;
+}
+
+button {
+  padding: 6px 20px;
+  margin-top: 10px;
+  font-family: "Saira Condensed", sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  border: 1px solid var(--primary-text-color);
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: var(--primary-text-color);
+  color: var(--background-color);
+}
+
+.settings-toggle-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  padding: 15px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  border-radius: 50%;
+  background: var(--background-color-settings);
+  transition: var(--theme-transition);
+  z-index: 1;
+}
+
+.settings-toggle-button:hover {
+  background-color: var(--background-color);
+  border-color: var(--secondary-text-color);
+}
+
+.settings-menu {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  padding: 20px 30px 30px;
+  width: 100%;
+  max-width: 260px;
+  background: var(--background-color-settings);
+  box-shadow: 0 0 10px var(--box-shadow-color);
+  border: 1px solid var(--primary-text-color);
+  border-radius: 6px;
+}
+
+.settings-menu h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.settings-menu .buttons-wrapper {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.settings-menu button {
+  margin: 0;
+  padding: 6px 10px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.2;
+  border: 1px solid var(--primary-text-color);
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.tutorial-overlay {
+  padding: 50px 20px 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: calc(100% - 40px);
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.92);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 10;
+}
+
+.tutorial-overlay h2 {
+  font-size: clamp(22px, 4vw, 36px);
+  color: #e9a663;
+}
+
+.tutorial-overlay p,
+.tutorial-overlay ul {
+  font-size: clamp(15px, 2vw, 18px);
+  color: #eee;
+  margin: 0 0 1em;
+}
+
+.tutorial-overlay ul {
+  margin: 0;
+  padding: 0;
+}
+
+.tutorial-overlay button {
+  margin-top: 1em;
+  padding: 0.5em 1em;
+  font-size: 1em;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@media only screen and (max-width: 600px) {
+  :root {
+    --tile-size: 60px;
+  }
+  .score-record {
+    max-width: 300px;
+  }
+  .tile {
+    font-size: 24px;
+    font-weight: 500;
+  }
+  h2 {
+    margin: 0;
+    font-size: 15px;
+  }
+  .settings-toggle-button {
+    top: 12px;
+    right: 12px;
+    padding: 13px;
+    width: 25px;
+    height: 25px;
+    font-size: 16px;
+  }
+  .settings-menu {
+    top: 5px;
+    right: 5px;
+    padding: 20px 20px;
+    width: calc(100% - 10px);
+    max-width: 420px;
+    box-sizing: border-box;
+  }
+}
