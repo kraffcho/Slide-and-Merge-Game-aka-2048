@@ -17,7 +17,7 @@ Slide & Merge is a React-based game inspired by the 2048 game. The objective is 
 ## Installation
 
 ```bash
-git clone https://github.com/your-username/slide-and-merge.git
+git clone https://github.com/kraffcho/slide-and-merge-game-aka-2048.git
 cd slide-and-merge
 npm install
 npm start
