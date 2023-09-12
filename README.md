@@ -1,6 +1,6 @@
 # Slide & Merge Game
 
-![Game Preview in Dark Mode](./game_preview.png)
+<img src="https://i.ibb.co/frcLJkT/game-preview.png" alt="Game Preview in Dark Mode" width="500" height="500">
 
 ## Description
 
