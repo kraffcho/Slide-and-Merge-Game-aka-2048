@@ -1,5 +1,7 @@
 # Slide & Merge Game
 
+![Game Preview in Dark Mode](./game_preview.png)
+
 ## Description
 
 Slide & Merge is a React-based game inspired by the 2048 game. The objective is to slide the numbered tiles on a grid to combine them and create a tile with the number 2048. This game features smooth animations, a dark/light theme toggle, a tutorial, and records your high score!
@@ -72,7 +74,7 @@ Restart the game at any point to try and beat your high score!
 
 ## Demo
 
-Coming soon...
+[PLAY THE GAME](https://6ytftn.csb.app/)
 
 ## Contributing
 
