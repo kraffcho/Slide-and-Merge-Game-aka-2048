@@ -227,12 +227,19 @@ const App = () => {
     setStartY(e.touches[0].clientY);
   };
 
+  const SWIPE_THRESHOLD = 30;
+  
   const handleTouchEnd = (e) => {
     const endX = e.changedTouches[0].clientX;
     const endY = e.changedTouches[0].clientY;
     const deltaX = endX - startX;
     const deltaY = endY - startY;
-
+  
+    // Check if the swipe length is greater than the threshold to count as a swipe
+    if (Math.abs(deltaX) < SWIPE_THRESHOLD && Math.abs(deltaY) < SWIPE_THRESHOLD) {
+      return; // Not a swipe, do nothing
+    }
+  
     // Determine swipe direction
     if (Math.abs(deltaX) > Math.abs(deltaY)) {
       if (deltaX > 0) {
