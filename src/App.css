@@ -96,6 +96,8 @@ h2 {
   flex-direction: column;
   align-items: center;
   position: relative;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .score-record {
@@ -109,6 +111,19 @@ h2 {
 .score-record > * {
   text-align: center;
   margin: 0;
+}
+
+.score-record .score {
+  position: relative;
+}
+
+.score-record .score .score-increment {
+  position: absolute;
+  opacity: 0;
+  color: #63f26f;
+  font-weight: 600;
+  text-shadow: 1px 1px 0 #666;
+  animation: fadeInOut 1s ease-out;
 }
 
 .board {
@@ -151,6 +166,10 @@ h2 {
   justify-content: center;
   align-items: center;
   z-index: 2;
+}
+
+.game-over > button {
+  width: 260px;
 }
 
 .game-over h2 {
@@ -285,6 +304,20 @@ button:hover {
 
 .fade-in {
   animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: .85;
+  }
+  50% {
+    left: 60%;
+  }
+  100% {
+    opacity: 0;
+    font-size: 50%;
+    left: 30%;
+  }
 }
 
 @media only screen and (max-width: 600px) {

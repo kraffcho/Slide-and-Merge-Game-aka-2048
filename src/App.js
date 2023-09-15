@@ -131,6 +131,27 @@ const reducer = (state, action) => {
   }
 };
 
+const ScoreIncrement = ({ increment, index }) => {
+  // Use useMemo to memoize the randomTop and randomLeft values
+  const [randomTop, randomLeft] = useMemo(() => {
+    const rt = Math.floor(Math.random() * 30) + 40;
+    const rl = Math.floor(Math.random() * 60) + 20;
+    return [rt, rl];
+  }, []); // Values are only calculated once
+
+  const fontSize = `${26 + increment}px`;
+
+  return (
+    <span
+      key={index}
+      style={{ top: `${randomTop}%`, left: `${randomLeft}%`, fontSize }}
+      className="score-increment"
+    >
+      +{increment}
+    </span>
+  );
+};
+
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [isTouchDevice] = useState("ontouchstart" in window);
@@ -143,6 +164,7 @@ const App = () => {
   });
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
   const [showGameOverOverlay, setShowGameOverOverlay] = useState(true);
+  const [tempScoreIncrements, setTempScoreIncrements] = useState([]);
 
   // Use useMemo to cache the flattened board
   const flatBoard = useMemo(() => state.board.flat(), [state.board]);
@@ -228,18 +250,21 @@ const App = () => {
   };
 
   const SWIPE_THRESHOLD = 30;
-  
+
   const handleTouchEnd = (e) => {
     const endX = e.changedTouches[0].clientX;
     const endY = e.changedTouches[0].clientY;
     const deltaX = endX - startX;
     const deltaY = endY - startY;
-  
+
     // Check if the swipe length is greater than the threshold to count as a swipe
-    if (Math.abs(deltaX) < SWIPE_THRESHOLD && Math.abs(deltaY) < SWIPE_THRESHOLD) {
+    if (
+      Math.abs(deltaX) < SWIPE_THRESHOLD &&
+      Math.abs(deltaY) < SWIPE_THRESHOLD
+    ) {
       return; // Not a swipe, do nothing
     }
-  
+
     // Determine swipe direction
     if (Math.abs(deltaX) > Math.abs(deltaY)) {
       if (deltaX > 0) {
@@ -282,8 +307,9 @@ const App = () => {
       };
 
       let newBoard = [];
-      let scoreIncrement = 0;
       let boardChanged = false;
+      let scoreIncrement = 0;
+      let totalScoreIncrement = 0;
 
       if (
         e.key === "ArrowUp" ||
@@ -304,6 +330,7 @@ const App = () => {
 
           const { newLine, scoreIncrement: lineScore } =
             mergeTiles(filteredLine);
+          totalScoreIncrement += lineScore; // Add the scoreIncrement of this line to the total
           scoreIncrement += lineScore;
 
           if (e.key === "ArrowDown" || e.key === "ArrowRight")
@@ -317,6 +344,14 @@ const App = () => {
             }
             if (newLine[j] !== line[j]) boardChanged = true;
           }
+        }
+
+        // After all merges are processed, update tempScoreIncrement
+        if (totalScoreIncrement > 0) {
+          setTempScoreIncrements((prevIncrements) => [
+            ...prevIncrements,
+            totalScoreIncrement,
+          ]);
         }
 
         if (boardChanged) {
@@ -345,6 +380,16 @@ const App = () => {
     window.addEventListener("keydown", handleKeydown);
     return () => window.removeEventListener("keydown", handleKeydown);
   }, [handleKeydown]);
+
+  useEffect(() => {
+    if (tempScoreIncrements.length > 0) {
+      const timer = setTimeout(() => {
+        setTempScoreIncrements([]);
+        // setTempScoreIncrements((prevIncrements) => prevIncrements.slice(1));
+      }, 1000); // clear after a second
+      return () => clearTimeout(timer); // clear timeout if component unmounts
+    }
+  }, [tempScoreIncrements]);
 
   const restartGame = () => {
     localStorage.removeItem("gameState"); // Clear saved game state
@@ -382,7 +427,12 @@ const App = () => {
       </p>
       <Board flatBoard={flatBoard} theme={theme} />
       <div className="score-record">
-        <h2>🎯 Score: {state.score}</h2>
+        <h2 className="score">
+          🎯 Score: {state.score}
+          {tempScoreIncrements.map((increment, index) => (
+            <ScoreIncrement key={index} increment={increment} index={index} />
+          ))}
+        </h2>
         <h2>🥇 Record: {state.record}</h2>
         <h2 className="timer">
           🕒 Time:{" "}
