@@ -433,7 +433,7 @@ const App = () => {
             <ScoreIncrement key={index} increment={increment} index={index} />
           ))}
         </h2>
-        <h2>🥇 Record: {state.record}</h2>
+        <h2 className="record">🥇 Record: {state.record}</h2>
         <h2 className="timer">
           🕒 Time:{" "}
           {typeof elapsedTime === "number" && !isNaN(elapsedTime)

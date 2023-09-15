@@ -49,12 +49,13 @@ body {
   background-color: var(--background-color);
   transition: background-color var(--theme-transition);
   overscroll-behavior-y: contain;
+  overflow: hidden;
 }
 
 h1 {
   font-size: var(--primary-font-size);
   color: var(--primary-text-color);
-  margin-bottom: 10px;
+  margin: 15px 0 10px;
   text-align: center;
 }
 
@@ -159,6 +160,7 @@ h2 {
   left: 0;
   right: 0;
   bottom: 0;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.95);
   color: white;
   display: flex;
@@ -169,7 +171,7 @@ h2 {
 }
 
 .game-over > button {
-  width: 260px;
+  width: 200px;
 }
 
 .game-over h2 {
@@ -209,7 +211,7 @@ button:hover {
   border-radius: 50%;
   background: var(--background-color-settings);
   transition: var(--theme-transition);
-  -webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   z-index: 1;
 }
 
@@ -308,7 +310,7 @@ button:hover {
 
 @keyframes fadeInOut {
   0% {
-    opacity: .85;
+    opacity: 0.85;
   }
   50% {
     left: 60%;
